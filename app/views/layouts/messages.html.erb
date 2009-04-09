@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+		<title>Messages: <%= controller.action_name %></title>
+		<%= stylesheet_link_tag 'scaffold' %>
+		<link rel="stylesheet" href="/stylesheets/blueprint/screen.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="/stylesheets/blueprint/print.css" type="text/css" media="print">
+		<!--[if IE]><link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+		<%= stylesheet_link_tag 'screen' %>
+
+	</head>
+	<body>
+		<div class="container" style="margin: 0 0;">
+			<div class="span-24">
+				<div class="success" style="float: left; margin: 0 0 0 50%; visibility: <%= flash[:notice] ? "" : "hidden" %> ">
+					&nbsp;<%= flash[:notice] %>
+				</div>
+			</div>
+			<div class="span-3">
+				<ul class="navigation">
+					<li>
+						<%= link_to_unless_current("Active", messages_url) {|name| "<b>#{name}</b>"} %>
+					</li>
+					<li>
+						<%= link_to_unless_current("Trash", trash_messages_url) {|name| "<b>#{name}</b>"} %>
+					</li>
+				</ul>
+			</div>
+			<div class="span-21 last">
+				<%= yield %>
+			</div>
+		</div>
+	</body>
+</html>

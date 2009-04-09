@@ -1,0 +1,26 @@
+<% form_for(@message) do |f| %>
+  <%= f.error_messages :class => "error" %>
+	<div style="clear: both"></div>
+	<p>
+    <button type="submit" class="btn primary"><span><span>Save</span></span></button>
+		<% !@message.new_record?() && link_to(@message, :confirm => 'Are you sure?', :method => :delete, :class => "btn primary") do %>
+			<span>
+				<span>
+					<%= @message.in_trash ? "Delete" : "Move to Trash" %>
+				</span>
+			</span>
+		<% end %>
+  </p>
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.label :subject %><br />
+    <%= f.text_field :subject %>
+  </p>
+  <p>
+    <%= f.label :body %><br />
+    <%= f.text_area :body %>
+  </p>
+<% end %>
