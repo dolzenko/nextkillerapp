@@ -1,8 +1,11 @@
 <% form_for(@message) do |f| %>
-  <%= f.error_messages :class => "error" %>
-	<div style="clear: both"></div>
+	<%= f.error_messages :class => "error" %>
+	<div style="clear: both">
+
+	</div>
 	<p>
-    <button type="submit" class="btn primary"><span><span>Save</span></span></button>
+		<button type="submit" class="btn primary"><span><span>Save</span></span></button>
+		
 		<% !@message.new_record?() && link_to(@message, :confirm => 'Are you sure?', :method => :delete, :class => "btn primary") do %>
 			<span>
 				<span>
@@ -10,17 +13,26 @@
 				</span>
 			</span>
 		<% end %>
-  </p>
-  <p>
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </p>
-  <p>
-    <%= f.label :subject %><br />
-    <%= f.text_field :subject %>
-  </p>
-  <p>
-    <%= f.label :body %><br />
-    <%= f.text_area :body %>
-  </p>
+
+		<% if @message.in_trash %>
+			<%= link_to_remote('<span><span>Restore</span></span>',
+				:url => message_url(@message),
+				:method => :put,
+				:with => "'message[in_trash]=0'",
+				:success => "window.location.href = '#{messages_url}';",
+				:html => { :class => "btn primary" }) %>
+		<% end %>
+	</p>
+	<p>
+		<%= f.label :email %><br />
+		<%= f.text_field :email, :class => "text" %>
+	</p>
+	<p>
+		<%= f.label :subject %><br />
+		<%= f.text_field :subject, :class => "text" %>
+	</p>
+	<p>
+		<%= f.label :body %><br />
+		<%= f.text_area :body %>
+	</p>
 <% end %>

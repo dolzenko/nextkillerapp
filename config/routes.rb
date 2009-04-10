@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :messages, :collection => { :trash => :get }
+  map.resources :messages, :member => { :toggle_favorite => :post }, :collection => { :trash => :get }
+	map.connect '/search', :controller => "messages", :action => "search"
 
   # The priority is based upon order of creation: first created -> highest priority.
 

@@ -1,6 +1,8 @@
 class MessagesController < ApplicationController
+	protect_from_forgery :except => :toggle_favorite
+
   def index
-    @messages = Message.all
+    @messages = Message.active
     respond_to do |format|
       format.html
     end
@@ -8,6 +10,13 @@ class MessagesController < ApplicationController
 
   def trash
     @messages = Message.trash
+    respond_to do |format|
+      format.html { render :action => "index" }
+    end
+  end
+
+	def search
+    @messages = Message.find(:all, :conditions => [ "subject LIKE ?", "%#{params[:q]}%"])
     respond_to do |format|
       format.html { render :action => "index" }
     end
@@ -53,6 +62,7 @@ class MessagesController < ApplicationController
   def update
     @message = Message.find(params[:id])
 
+		#params[:message]
     respond_to do |format|
       if @message.update_attributes(params[:message])
         flash[:notice] = 'Message was successfully updated.'
@@ -62,6 +72,12 @@ class MessagesController < ApplicationController
       end
     end
   end
+
+	def toggle_favorite
+    @message = Message.find(params[:id])
+		@message.update_attributes({:important => !@message.important})
+		render :js => %Q{$("favimg_" + #{params[:id]}).className = "#{@message.important ? "" : "non_"}favorite";}
+	end
 
   def destroy
     @message = Message.find(params[:id])

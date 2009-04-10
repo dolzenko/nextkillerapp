@@ -4,14 +4,23 @@
 			<span><span>New</span></span>
 		<% end %>
 	</p>
+	
+	<p>
+		<%= params[:q] && "Search results for <b>#{h(params[:q])}</b>:" %>
+	</p>
 
 	<table id="mainlist" cellpadding="0" cellspacing="0">
 		<% @messages.each do |message| %>
 			<tr>
-				<td><%= wrap_in_edit_link(message, h(message.email)) %></td>
-				<td><%= wrap_in_edit_link(message, truncate(h(message.subject), :length => 40)) %></td>
-				<td><%= wrap_in_edit_link(message, truncate(h(message.body), :length => 100)) %></td>
-				<td></td>
+				<td class="favimg">
+					<img id="favimg_<%= message.id %>" 
+							 class="<%= message.important ? "" : "non_"%>favorite"
+							 onclick="toggle_favorite(<%= message.id %>)"
+							 src="/images/cleardot.gif" />
+				</td>
+				<td class="email"><%= wrap_in_edit_link(message, h(message.email)) %></td>
+				<td class="subject"><%= wrap_in_edit_link(message, truncate(h(message.subject), :length => 40)) %></td>
+				<td class="body"><%= wrap_in_edit_link(message, truncate(h(message.body), :length => 100)) %></td>
 			</tr>
 		<% end %>
 	</table>

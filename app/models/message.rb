@@ -1,11 +1,7 @@
 class Message < ActiveRecord::Base
-	validate :valid_email?
-
 	named_scope :trash, :conditions => {:in_trash => true}
+	named_scope :active, :conditions => {:in_trash => false}
 	
-	def valid_email?
-		TMail::Address.parse(email)
-	rescue
-		errors.add_to_base("Must be a valid email")
-	end
+	validates_presence_of :email
+	validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 end
